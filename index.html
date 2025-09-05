@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FaceBook</title>
+
+  <style>
+    :root{
+      /* Buradan margin-i dəyişə bilərsən. Ekranda "margin" sahəsi bu dəyər qədər olacaq. */
+      --page-margin: 20px;     /* masaüstü üçün əsas margin (dəyəri dəyişdirə bilərsən) */
+      --container-max: 1200px;
+      --bg: #e9eef6;           /* səhifənin (margin sahəsi) fonu — margin görünməsi üçün fərqli rəng */
+      --card: #ffffff;         /* əsas məzmun kartının fonu */
+      --muted: #6b7280;
+      --accent: #1877f2;       /* facebook mavi tonuna yaxın */
+      --radius: 12px;
+    }
+
+    /* Universal reset + rahatlıq üçün */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin: 0;
+      font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--bg); /* margin sahəsinin rəngi buradandır */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: #111827;
+      line-height: 1.35;
+    }
+
+    /* Mərkəzləşdirilmiş konteyner — margin buradan yaranır (auto ilə mərkəz) */
+    .page {
+      min-height: 100vh; /* ekranı tam tutur */
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: calc(var(--page-margin) * 0.5); /* əlavə iç margin cihazlarda daha gözəl görünür */
+    }
+
+    .container {
+      width: calc(100% - (var(--page-margin) * 2)); /* buradakı boşluq margin görünməsini təmin edir */
+      max-width: var(--container-max);
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.08);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 260px 1fr 300px; /* sol-sentr-sağ layout */
+      gap: 20px;
+      padding: 20px;
+    }
+
+    /* Mobil üçün adaptasiya: sütunları yığıb düzləşdir */
+    @media (max-width: 980px){
+      .container { grid-template-columns: 1fr; padding: 16px; }
+    }
+
+    /* Sol sidebar */
+    .sidebar {
+      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+      border-radius: 10px;
+      padding: 14px;
+      min-height: 220px;
+    }
+    .logo { font-weight: 700; color: var(--accent); font-size: 20px; margin-bottom: 10px; }
+    .nav-item { padding: 8px 6px; border-radius: 8px; cursor: pointer; color: var(--muted); }
+    .nav-item:hover { background: #f3f6fb; color: #111827; }
+
+    /* Orta əsas feed */
+    .feed {
+      padding: 6px;
+      min-height: 400px;
+    }
+    .composer {
+      background: #fff;
+      border: 1px solid #eef2ff;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+    .post {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #f1f5f9;
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+    .post .meta { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+
+    /* Sağ sütun */
+    .right {
+      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+      border-radius: 10px;
+      padding: 14px;
+      min-height: 220px;
+    }
+
+    /* Footer stili: margin-in göründüyünü vurgulamaq üçün konteyner xaricindəki sahə görünür */
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Responsive elementlər */
+    .profile-pic {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(45deg,#e2e8f0,#fff);
+      display: inline-block; vertical-align: middle; margin-right: 8px;
+    }
+
+    .post img { max-width: 100%; height: auto; border-radius: 8px; display:block; margin-top: 8px; }
+
+    /* Küçük ekranlarda margin daha kiçik olsun — beləliklə "tam görünən margin" mobil üçün də səliqəlidir */
+    @media (max-width: 480px){
+      :root { --page-margin: 12px; }
+      .container { gap: 12px; }
+    }
+
+    /* Kiçik helperlar */
+    .muted { color: var(--muted); font-size: 13px; }
+    .btn { display:inline-block; padding:8px 12px; border-radius:10px; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="container" role="main" aria-label="SocialBook demo container">
+      <!-- SOL -->
+      <aside class="sidebar" aria-label="sidebar">
+        <div class="logo">SocialBook</div>
+        <div class="muted">Sənet: demo profil</div>
+        <nav style="margin-top:12px;">
+          <div class="nav-item">Ana səhifə</div>
+          <div class="nav-item">Xəbərlər lent</div>
+          <div class="nav-item">Mesajlar</div>
+          <div class="nav-item">Qruplar</div>
+          <div class="nav-item">Sazlamalar</div>
+        </nav>
+      </aside>
+
+      <!-- ORTA -->
+      <section class="feed" aria-label="feed">
+        <div class="composer" role="complementary">
+          <div style="display:flex; align-items:center;">
+            <div class="profile-pic" aria-hidden="true"></div>
+            <input type="text" placeholder="Nə düşünürsən?" style="flex:1; border:0; outline:none; font-size:15px;">
+          </div>
+        </div>
+
+        <article class="post" aria-labelledby="p1">
+          <div class="meta" id="p1"><strong>Ali K.</strong> · 2 saat əvvəl</div>
+          <div>Bu, SocialBook demo postudur. Burada şəkil və ya mətn paylaşa bilərsiniz.</div>
+          <img src="https://picsum.photos/800/400?random=1" alt="demo image">
+          <div class="muted" style="margin-top:8px;">Bəyən: 12 · Şərh: 3 · Paylaş: 1</div>
+        </article>
+
+        <article class="post" aria-labelledby="p2">
+          <div class="meta" id="p2"><strong>Leyla M.</strong> · Dünən</div>
+          <div>Yeni layihə üzərində işləyirəm — hamıya uğurlar!</div>
+        </article>
+      </section>
+
+      <!-- SAĞ -->
+      <aside class="right" aria-label="right column">
+        <h4 style="margin:0 0 8px 0;">Tövsiyə olunanlar</h4>
+        <div style="margin-bottom:10px;">
+          <div style="font-weight:600;">Rəfiqə təklifləri</div>
+          <div class="muted" style="font-size:13px;">Səni tanıyanlar</div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <a class="btn" href="#" onclick="return false;">Dost əlavə et</a>
+        </div>
+      </aside>
+    </div>
+    <script>
+     let parol = prompt('Parolu daxil edin.')
+        
+        let netice = document.getElementById('yas')
+
+        if (parol = 142536) {
+            netice.innerHTML = 'xos geldiniz'
+
+        } else {
+            netice.innerHTML = 'Yanlis parol'
+
+        }
+    </script>
+  </div>
+
+  <footer>
+    Page background rəngi — bu sahə konteyner ətrafındakı "margin" rolunu oynayır. `--page-margin` dəyişənini dəyişərək margin-i böyüdə/balacala bilərsən.
+  </footer>
+</body>
+</html>
